@@ -30,15 +30,19 @@ alexaApp.express({
   debug: true
 });
 
+// Show our developers what is going on with this skill
 app.set("view engine", "ejs");
 
+//
+// Start the skill party
+//
 alexaApp.launch(function(request, response) {
   console.log("----> i80 road conditions skill launched");
   response.say('Hey! Do you wish to check the road conditions on highway 80?').shouldEndSession(false);
 });
 
 //
-// The price intent
+// The main 'road conditions' intent
 //
 alexaApp.intent("roadconditions", {
     "slots": {},
@@ -64,6 +68,7 @@ alexaApp.intent("roadconditions", {
       .then(function (body) {
         //console.log("====  "+ body + "\n======");
         try {  
+          // Get the web page and clean the data so we could 'talk' it back to the user
           let html = body; 
           let inx1 = html.indexOf('<h2>') + 20;
           let inx2 = html.indexOf('<pre>', inx1) + 5; // we got 2 > to skip
@@ -106,7 +111,7 @@ alexaApp.intent("roadconditions", {
 );
 
 //
-//
+// A promise to fetch the data from the gov site that updating it
 //
 function getData(endpoint) {  
   return new Promise(function(resolve, reject) {
@@ -126,6 +131,9 @@ function getData(endpoint) {
   }); 
 }
 
+//
+// Guide our users in case they asked for help
+//
 alexaApp.intent("AMAZON.HelpIntent", {
     "slots": {},
     "utterances": ["what can you do", "help"]
@@ -137,20 +145,20 @@ alexaApp.intent("AMAZON.HelpIntent", {
 );
 
 //
-//
+// The user wish to leave our skill
 //
 alexaApp.intent("AMAZON.CancelIntent", {
     "slots": {},
-    "utterances": ["no", "bye",  "quit"]
+    "utterances": ["no", "nope", "bye",  "quit"]
   }, function(request, response) {
     console.log("Sent cancel response");
-  	response.say("Ok, sure thing. Have safe trip.");
+  	response.say("Ok, sure thing. Have safe trip!");
   	return;
   }
 );
 
 //
-//
+// The user wish to stop/leave our skill
 //
 alexaApp.intent("AMAZON.StopIntent", {
     "slots": {},

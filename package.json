@@ -14,7 +14,8 @@
     "skills"
   ],
   "author": "Ido Green | @greenido",
-  "license": "MIT",
+  "repository" : "https://github.com/greenido/alexa-highway-80-conditions",
+  "license" : "SEE LICENSE IN LICENSE.md",
   "dependencies": {
     "alexa-app": "^4.2.0",
     "ejs": "^2.5.7",
